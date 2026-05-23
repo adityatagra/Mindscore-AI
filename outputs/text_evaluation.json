@@ -1,0 +1,85 @@
+{
+  "LogisticRegression": {
+    "cv_f1_mean": 1.0,
+    "cv_f1_std": 0.0,
+    "test_metrics": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "roc_auc": 1.0
+    }
+  },
+  "LinearSVM": {
+    "cv_f1_mean": 1.0,
+    "cv_f1_std": 0.0,
+    "test_metrics": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "roc_auc": 1.0
+    }
+  },
+  "RandomForest": {
+    "cv_f1_mean": 0.9974,
+    "cv_f1_std": 0.0051,
+    "test_metrics": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "roc_auc": 1.0
+    }
+  },
+  "GradientBoosting": {
+    "cv_f1_mean": 0.9949,
+    "cv_f1_std": 0.005,
+    "test_metrics": {
+      "accuracy": 0.9966,
+      "precision": 0.9966,
+      "recall": 0.9966,
+      "f1_score": 0.9966,
+      "roc_auc": 1.0
+    }
+  },
+  "TunedLogisticRegression": {
+    "best_params": {
+      "C": 0.01,
+      "penalty": "l2"
+    },
+    "best_cv_f1": 1.0,
+    "test_metrics": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "roc_auc": 1.0
+    }
+  },
+  "CalibratedEnsemble": {
+    "components": [
+      "LogisticRegression",
+      "LinearSVM",
+      "RandomForest",
+      "TunedLR"
+    ],
+    "test_metrics": {
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "roc_auc": 1.0
+    },
+    "confusion_matrix": [
+      [
+        139,
+        0
+      ],
+      [
+        0,
+        153
+      ]
+    ]
+  }
+}

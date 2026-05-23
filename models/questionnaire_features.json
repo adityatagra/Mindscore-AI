@@ -1,0 +1,26 @@
+{
+  "feature_columns": [
+    "sleep_quality",
+    "appetite",
+    "energy_level",
+    "social_interaction",
+    "concentration",
+    "mood",
+    "stress_level",
+    "physical_activity",
+    "interest_in_activities",
+    "self_worth"
+  ],
+  "feature_importance": {
+    "appetite": 0.4243,
+    "interest_in_activities": 0.336,
+    "energy_level": 0.159,
+    "mood": 0.0808,
+    "stress_level": 0.0,
+    "social_interaction": 0.0,
+    "concentration": 0.0,
+    "sleep_quality": 0.0,
+    "self_worth": 0.0,
+    "physical_activity": 0.0
+  }
+}

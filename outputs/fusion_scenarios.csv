@@ -1,0 +1,8 @@
+Scenario,Text,Quest,Audio,Final,Risk
+Healthy user,88,92,N/A,89.95,Stable
+Moderate risk,52,48,N/A,49.94,Moderate Risk
+High risk,18,22,N/A,19.98,High Risk
+Mixed (text ok),78,28,N/A,47.74,Moderate Risk
+Mixed (quest ok),25,82,N/A,46.92,Moderate Risk
+With audio (calm),70,65,78,68.95,Moderate Risk
+With audio (sad),70,65,22,61.58,Moderate Risk

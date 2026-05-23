@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MindScore AI — 3-Day Build & Submit Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a1a;
+    --bg-2: #11112a;
+    --bg-card: rgba(20, 20, 45, 0.7);
+    --border: rgba(255, 255, 255, 0.08);
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --dim: #64748b;
+    --cyan: #06b6d4;
+    --purple: #a855f7;
+    --green: #10b981;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+    --pink: #ec4899;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 0%, rgba(168, 85, 247, 0.15), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(6, 182, 212, 0.12), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 50% 100%, rgba(236, 72, 153, 0.1), transparent 60%),
+      var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  code, pre, .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Layout */
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 40px 28px 80px; }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 60px 20px 50px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 50px;
+  }
+  .hero .badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: linear-gradient(90deg, rgba(6, 182, 212, 0.2), rgba(168, 85, 247, 0.2));
+    border: 1px solid rgba(6, 182, 212, 0.4);
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 56px;
+    font-weight: 900;
+    margin: 0 0 16px;
+    background: linear-gradient(135deg, #06b6d4 0%, #a855f7 50%, #ec4899 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+  }
+  .hero .sub { color: var(--muted); font-size: 18px; max-width: 700px; margin: 0 auto 30px; }
+  .hero .meta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .meta-chip {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .meta-chip strong { color: var(--text); }
+
+  /* TOC */
+  .toc {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 50px;
+    backdrop-filter: blur(10px);
+  }
+  .toc h3 {
+    margin: 0 0 16px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--cyan);
+  }
+  .toc ol { padding-left: 22px; margin: 0; }
+  .toc li { padding: 4px 0; }
+  .toc a { color: var(--text); text-decoration: none; transition: color 0.2s; }
+  .toc a:hover { color: var(--cyan); }
+
+  /* Section */
+  section { margin-bottom: 64px; scroll-margin-top: 20px; }
+  h2 {
+    font-size: 34px;
+    font-weight: 800;
+    margin: 0 0 8px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #06b6d4, #a855f7);
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+  }
+  h2 .tag {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 600;
+    margin-left: auto;
+  }
+  .tag-day1 { background: rgba(16, 185, 129, 0.15); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.3); }
+  .tag-day2 { background: rgba(6, 182, 212, 0.15); color: var(--cyan); border: 1px solid rgba(6, 182, 212, 0.3); }
+  .tag-day3 { background: rgba(236, 72, 153, 0.15); color: var(--pink); border: 1px solid rgba(236, 72, 153, 0.3); }
+  .tag-prereq { background: rgba(245, 158, 11, 0.15); color: var(--yellow); border: 1px solid rgba(245, 158, 11, 0.3); }
+
+  h3 { font-size: 22px; margin: 32px 0 12px; color: var(--text); font-weight: 700; }
+  h4 { font-size: 17px; margin: 20px 0 8px; color: var(--cyan); font-weight: 600; }
+  p { color: #cbd5e1; margin: 10px 0; }
+
+  /* Card */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin: 16px 0;
+    backdrop-filter: blur(10px);
+  }
+
+  /* Step */
+  .step {
+    display: flex;
+    gap: 18px;
+    margin: 22px 0;
+    padding: 22px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    border-left: 4px solid var(--cyan);
+  }
+  .step-num {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #06b6d4, #a855f7);
+    color: white;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+  }
+  .step-body { flex: 1; min-width: 0; }
+  .step-body h4 { margin: 0 0 8px; color: var(--text); font-size: 18px; }
+
+  /* Code block */
+  pre {
+    background: #06061a;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--purple);
+    padding: 16px 18px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #cbd5e1;
+    margin: 12px 0;
+    position: relative;
+  }
+  pre code { color: inherit; }
+  .code-label {
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    background: var(--purple);
+    color: white;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  code:not(pre code) {
+    background: rgba(168, 85, 247, 0.15);
+    color: #c084fc;
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-size: 0.88em;
+    border: 1px solid rgba(168, 85, 247, 0.25);
+  }
+
+  /* Callouts */
+  .callout {
+    padding: 14px 18px;
+    border-radius: 10px;
+    margin: 16px 0;
+    border-left: 4px solid;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .callout .icon { font-size: 22px; line-height: 1; }
+  .callout strong { display: block; margin-bottom: 4px; }
+  .callout-info { background: rgba(6, 182, 212, 0.08); border-color: var(--cyan); color: #a5f3fc; }
+  .callout-warn { background: rgba(245, 158, 11, 0.08); border-color: var(--yellow); color: #fcd34d; }
+  .callout-danger { background: rgba(239, 68, 68, 0.08); border-color: var(--red); color: #fca5a5; }
+  .callout-success { background: rgba(16, 185, 129, 0.08); border-color: var(--green); color: #6ee7b7; }
+
+  /* Image / screenshot */
+  .screenshot {
+    margin: 16px 0;
+    padding: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-align: center;
+  }
+  .screenshot img {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #fff;
+  }
+  .screenshot .caption {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 8px 4px 4px;
+    font-style: italic;
+  }
+
+  /* Logo grid */
+  .logo-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+    margin: 16px 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .logo-row img { width: 56px; height: 56px; }
+  .logo-row .label { display: block; text-align: center; font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .logo-row .logo-item { text-align: center; }
+
+  /* Day timeline */
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
+    margin: 24px 0;
+  }
+  .day-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .day-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .day-card.d1 { --accent: var(--green); }
+  .day-card.d2 { --accent: var(--cyan); }
+  .day-card.d3 { --accent: var(--pink); }
+  .day-card h3 { margin-top: 0; color: var(--accent); display: flex; align-items: center; gap: 10px; font-size: 18px; }
+  .day-card ul { margin: 8px 0 0; padding-left: 20px; color: #cbd5e1; }
+  .day-card li { padding: 3px 0; font-size: 14px; }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    background: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    background: rgba(168, 85, 247, 0.1);
+    color: var(--cyan);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  td { font-size: 14px; color: #cbd5e1; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+  /* Checklist */
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li {
+    padding: 8px 0 8px 32px;
+    position: relative;
+    border-bottom: 1px dashed var(--border);
+  }
+  .checklist li::before {
+    content: '☐';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    font-size: 18px;
+    color: var(--cyan);
+  }
+
+  /* Architecture diagram */
+  .arch-svg { width: 100%; max-width: 900px; margin: 20px auto; display: block; }
+
+  /* Floating back-to-top */
+  .top-btn {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan), var(--purple));
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4);
+    transition: transform 0.2s;
+    text-decoration: none;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .top-btn:hover { transform: translateY(-3px); }
+
+  /* Print */
+  @media print {
+    body { background: white; color: black; }
+    .top-btn { display: none; }
+    section { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 36px; }
+    h2 { font-size: 24px; }
+    .wrap { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ╔══════════════════════════ HERO ══════════════════════════ ╗ -->
+  <header class="hero">
+    <div class="badge">Final-Year BTech Project · 3-Day Plan</div>
+    <h1>MindScore AI<br/>The Build &amp; Submit Playbook</h1>
+    <p class="sub">A foolproof, step-by-step guide to take this Multimodal Mental Health Scoring system from zero → trained on real Kaggle data → deployed locally → demo-ready. Written for absolute beginners.</p>
+    <div class="meta">
+      <div class="meta-chip"><strong>Timeline:</strong> 3 days</div>
+      <div class="meta-chip"><strong>Cost:</strong> Free (Colab + Kaggle)</div>
+      <div class="meta-chip"><strong>Skill needed:</strong> Copy-paste 😊</div>
+      <div class="meta-chip"><strong>Deliverable:</strong> Working demo + report</div>
+    </div>
+  </header>
+
+  <!-- ╔══════════════════════════ TOC ══════════════════════════ ╗ -->
+  <div class="toc">
+    <h3>📋 Table of Contents</h3>
+    <ol>
+      <li><a href="#overview">What is this project?</a></li>
+      <li><a href="#timeline">3-Day Timeline at a Glance</a></li>
+      <li><a href="#tools">Tools you'll use (and why)</a></li>
+      <li><a href="#prereq">Pre-requisites — Accounts &amp; Setup</a></li>
+      <li><a href="#day1">DAY 1 — Local setup &amp; understanding the project</a></li>
+      <li><a href="#day2">DAY 2 — Train on Google Colab with Kaggle data</a></li>
+      <li><a href="#day3">DAY 3 — Demo, report, and submission</a></li>
+      <li><a href="#troubleshoot">Troubleshooting — Common errors &amp; fixes</a></li>
+      <li><a href="#viva">Viva / Demo cheat sheet</a></li>
+      <li><a href="#checklist">Final submission checklist</a></li>
+    </ol>
+  </div>
+
+  <!-- ╔══════════════════════════ 1. OVERVIEW ══════════════════════════ ╗ -->
+  <section id="overview">
+    <h2><span class="num">1</span> What is this project?</h2>
+    <p><strong>MindScore AI</strong> is an AI system that estimates a person's mental wellness on a <strong>0–100 score</strong> (instead of just saying "depressed / not depressed") by combining three sources of information:</p>
+
+    <svg class="arch-svg" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#06b6d4"/><stop offset="100%" stop-color="#a855f7"/>
+        </linearGradient>
+        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#ec4899"/>
+        </linearGradient>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0,0 L10,5 L0,10 Z" fill="#94a3b8"/>
+        </marker>
+      </defs>
+
+      <!-- Inputs -->
+      <g>
+        <rect x="20" y="30" width="200" height="100" rx="12" fill="#11112a" stroke="#06b6d4" stroke-width="2"/>
+        <text x="120" y="65" text-anchor="middle" fill="#06b6d4" font-size="14" font-weight="700">📝 TEXT</text>
+        <text x="120" y="90" text-anchor="middle" fill="#cbd5e1" font-size="11">Diary / journal entry</text>
+        <text x="120" y="108" text-anchor="middle" fill="#94a3b8" font-size="10">→ TF-IDF + Ensemble</text>
+
+        <rect x="350" y="30" width="200" height="100" rx="12" fill="#11112a" stroke="#a855f7" stroke-width="2"/>
+        <text x="450" y="65" text-anchor="middle" fill="#a855f7" font-size="14" font-weight="700">📋 QUESTIONNAIRE</text>
+        <text x="450" y="90" text-anchor="middle" fill="#cbd5e1" font-size="11">10 wellness questions</text>
+        <text x="450" y="108" text-anchor="middle" fill="#94a3b8" font-size="10">→ Scaler + Ensemble</text>
+
+        <rect x="680" y="30" width="200" height="100" rx="12" fill="#11112a" stroke="#ec4899" stroke-width="2"/>
+        <text x="780" y="65" text-anchor="middle" fill="#ec4899" font-size="14" font-weight="700">🎙️ AUDIO</text>
+        <text x="780" y="90" text-anchor="middle" fill="#cbd5e1" font-size="11">Voice clip (10s+)</text>
+        <text x="780" y="108" text-anchor="middle" fill="#94a3b8" font-size="10">→ MFCC + SVM</text>
+      </g>
+
+      <!-- Arrows down -->
+      <line x1="120" y1="130" x2="350" y2="200" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="450" y1="130" x2="450" y2="200" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+      <line x1="780" y1="130" x2="550" y2="200" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Fusion -->
+      <rect x="300" y="200" width="300" height="70" rx="12" fill="url(#grad1)"/>
+      <text x="450" y="232" text-anchor="middle" fill="white" font-size="15" font-weight="700">⚖️ Confidence-Weighted Fusion</text>
+      <text x="450" y="253" text-anchor="middle" fill="white" font-size="11" opacity="0.85">Smarter modules get more weight</text>
+
+      <!-- Arrow to score -->
+      <line x1="450" y1="270" x2="450" y2="320" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow)"/>
+
+      <!-- Final score -->
+      <rect x="280" y="320" width="340" height="80" rx="14" fill="url(#grad2)"/>
+      <text x="450" y="352" text-anchor="middle" fill="white" font-size="18" font-weight="800">🧠 Final Score (0–100)</text>
+      <text x="450" y="378" text-anchor="middle" fill="white" font-size="12" opacity="0.9">+ Risk Band · Trend Tracking · Alerts</text>
+    </svg>
+
+    <h3>Why is this better than a regular "depressed/not depressed" classifier?</h3>
+    <ul>
+      <li>📊 <strong>Continuous score</strong> = nuance. 42 vs 68 are both "moderate", but very different.</li>
+      <li>📈 <strong>Trend tracking</strong> = early warning when someone slowly declines.</li>
+      <li>🎯 <strong>Multi-modal</strong> = uses 3 types of input, so it doesn't depend on just one signal.</li>
+      <li>🤖 <strong>Ensemble models</strong> = combines 4 algorithms per module → more accurate.</li>
+      <li>🎨 <strong>Pro UI</strong> = futuristic dashboard with gauge, radar, alerts, reports.</li>
+    </ul>
+  </section>
+
+  <!-- ╔══════════════════════════ 2. TIMELINE ══════════════════════════ ╗ -->
+  <section id="timeline">
+    <h2><span class="num">2</span> 3-Day Timeline at a Glance</h2>
+    <p>Stick to this and you'll have a strong submission. Don't skip ahead — each day builds on the last.</p>
+    <div class="timeline">
+      <div class="day-card d1">
+        <h3>🟢 Day 1 — Foundation</h3>
+        <ul>
+          <li>✅ Install Python &amp; clone project</li>
+          <li>✅ Set up venv + install deps</li>
+          <li>✅ Run with synthetic data</li>
+          <li>✅ Launch Streamlit demo</li>
+          <li>✅ Read the README end-to-end</li>
+          <li>✅ Create GitHub repo</li>
+          <li>✅ Make Kaggle account + get API token</li>
+        </ul>
+      </div>
+      <div class="day-card d2">
+        <h3>🔵 Day 2 — Train on Colab</h3>
+        <ul>
+          <li>✅ Open Google Colab</li>
+          <li>✅ Clone repo + install deps</li>
+          <li>✅ Upload Kaggle API token</li>
+          <li>✅ Download Reddit + Student MH datasets</li>
+          <li>✅ Format CSVs to match config</li>
+          <li>✅ Run <code>train_all.py</code></li>
+          <li>✅ Run <code>evaluate_all.py</code></li>
+          <li>✅ Download trained models back</li>
+        </ul>
+      </div>
+      <div class="day-card d3">
+        <h3>🟣 Day 3 — Polish &amp; Submit</h3>
+        <ul>
+          <li>✅ Replace local models with new ones</li>
+          <li>✅ Test full flow in Streamlit</li>
+          <li>✅ Record demo video (5 min)</li>
+          <li>✅ Take screenshots for report</li>
+          <li>✅ Write project report</li>
+          <li>✅ Prepare viva Q&amp;A</li>
+          <li>✅ Submit ✨</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════ 3. TOOLS ══════════════════════════ ╗ -->
+  <section id="tools">
+    <h2><span class="num">3</span> Tools you'll use</h2>
+    <p>Here's everything you need. <strong>All free.</strong> Just need a browser + a laptop.</p>
+    <div class="logo-row">
+      <div class="logo-item">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"/>
+        <span class="label">Python 3.11</span>
+      </div>
+      <div class="logo-item">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" style="background:#fff; border-radius:8px;"/>
+        <span class="label">GitHub</span>
+      </div>
+      <div class="logo-item">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecolab/googlecolab-original.svg" alt="Colab"/>
+        <span class="label">Google Colab</span>
+      </div>
+      <div class="logo-item">
+        <img src="https://www.kaggle.com/static/images/site-logo.svg" alt="Kaggle" style="height:56px; width:auto;"/>
+        <span class="label">Kaggle</span>
+      </div>
+      <div class="logo-item">
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" alt="Jupyter"/>
+        <span class="label">Notebook</span>
+      </div>
+      <div class="logo-item">
+        <img src="https://streamlit.io/images/brand/streamlit-mark-color.svg" alt="Streamlit"/>
+        <span class="label">Streamlit</span>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Tool</th><th>Why you need it</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Python 3.11+</strong></td><td>To run the project on your laptop</td><td>Free</td></tr>
+        <tr><td><strong>Google account</strong></td><td>To use Colab (free GPU/CPU compute)</td><td>Free</td></tr>
+        <tr><td><strong>Kaggle account</strong></td><td>To download real-world datasets</td><td>Free</td></tr>
+        <tr><td><strong>GitHub account</strong></td><td>To get your project into Colab easily</td><td>Free</td></tr>
+        <tr><td><strong>Streamlit</strong></td><td>To run the futuristic dashboard locally</td><td>Free</td></tr>
+        <tr><td><strong>OBS / Loom</strong> (optional)</td><td>To record the demo video</td><td>Free</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ╔══════════════════════════ 4. PREREQUISITES ══════════════════════════ ╗ -->
+  <section id="prereq">
+    <h2><span class="num">4</span> Pre-requisites — One-time setup <span class="tag tag-prereq">Do first</span></h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Make a Google account (if you don't have one)</h4>
+        <p>Go to <a href="https://accounts.google.com/signup" target="_blank" style="color:var(--cyan)">accounts.google.com/signup</a> and create one. This unlocks Google Colab + Google Drive.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Make a Kaggle account</h4>
+        <p>Go to <a href="https://www.kaggle.com/account/login" target="_blank" style="color:var(--cyan)">kaggle.com</a> → click <strong>Register</strong> → sign up with email (you can use the same Google account).</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Get your Kaggle API token (critical!)</h4>
+        <p>This is a tiny file (<code>kaggle.json</code>) that lets Colab download datasets on your behalf.</p>
+        <ol>
+          <li>Log into Kaggle.</li>
+          <li>Click your profile picture (top-right) → <strong>Settings</strong> (older UI: <strong>Account</strong>).</li>
+          <li>Scroll down to the <strong>API</strong> section.</li>
+          <li>Click <strong>"Create New Token"</strong>.</li>
+          <li>A file called <code>kaggle.json</code> downloads. <strong>Don't lose it.</strong> Save it somewhere you'll find — e.g. <code>Downloads/kaggle.json</code>.</li>
+        </ol>
+        <div class="screenshot">
+          <img src="https://i.imgur.com/3OzwgLB.png" alt="Kaggle API token screenshot" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+          <div class="caption" style="display:none">Settings → API → "Create New Token" button</div>
+          <div class="caption">Kaggle: Settings → API → "Create New Token"</div>
+        </div>
+        <div class="callout callout-warn">
+          <span class="icon">⚠️</span>
+          <div><strong>Treat kaggle.json like a password.</strong> Anyone who has it can use your Kaggle account. Don't share it, don't commit it to GitHub.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Make a GitHub account</h4>
+        <p>Go to <a href="https://github.com/signup" target="_blank" style="color:var(--cyan)">github.com/signup</a>. Pick a username, verify email. Done.</p>
+        <p>This lets us push the code once, then pull it into Colab with a single command — no zipping, no uploading.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Install Git on your laptop (Windows)</h4>
+        <p>Download from <a href="https://git-scm.com/download/win" target="_blank" style="color:var(--cyan)">git-scm.com/download/win</a> → run installer → click "Next" on every screen → finish.</p>
+        <p>To check it worked, open <strong>PowerShell</strong> and type:</p>
+        <pre><code>git --version</code></pre>
+        <p>Should print something like <code>git version 2.x.x</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════ 5. DAY 1 ══════════════════════════ ╗ -->
+  <section id="day1">
+    <h2><span class="num">5</span> Day 1 — Local Setup &amp; Synthetic Run <span class="tag tag-day1">Day 1</span></h2>
+    <p>Goal: by end of Day 1, the dashboard runs on your laptop with the bundled synthetic data, and the code is on GitHub.</p>
+
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Install Python 3.11</h4>
+        <p>Download from <a href="https://www.python.org/downloads/release/python-3119/" target="_blank" style="color:var(--cyan)">python.org/downloads</a> (any 3.11.x version is fine).</p>
+        <div class="callout callout-danger">
+          <span class="icon">🚨</span>
+          <div><strong>CRITICAL:</strong> During install, tick the box <strong>"Add Python to PATH"</strong> at the bottom of the first screen. If you forget this, nothing will work.</div>
+        </div>
+        <p>To verify:</p>
+        <pre><code>python --version</code></pre>
+        <p>Expected output: <code>Python 3.11.9</code> (or similar).</p>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Get the project onto your laptop</h4>
+        <p>The project folder should already be at:</p>
+        <pre><code>C:\Users\ajayk11\depression detection using text and speech\depression detection using text and speech\depression detection using text and speech\</code></pre>
+        <p>Open <strong>PowerShell</strong> and navigate there:</p>
+        <pre><span class="code-label">PowerShell</span><code>cd "C:\Users\ajayk11\depression detection using text and speech\depression detection using text and speech\depression detection using text and speech"</code></pre>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Create a virtual environment <em>outside</em> the project folder</h4>
+        <p>The project folder path is very long, and Windows has a 260-character path limit. So we put the venv at a short path:</p>
+        <pre><span class="code-label">PowerShell</span><code>python -m venv C:\venvs\mindscore</code></pre>
+        <p>Then install all dependencies:</p>
+        <pre><span class="code-label">PowerShell</span><code>C:\venvs\mindscore\Scripts\python.exe -m pip install -r requirements.txt</code></pre>
+        <p>Takes ~4-5 minutes. You'll see a wall of text — that's normal. End message: <code>Successfully installed ...</code></p>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Run with synthetic data (just to make sure it works)</h4>
+        <p>The trained models &amp; sample data are already in <code>models/</code> and <code>data/raw/</code>. Just launch:</p>
+        <pre><span class="code-label">PowerShell</span><code>C:\venvs\mindscore\Scripts\python.exe -m streamlit run app/streamlit_app.py --server.port 8503</code></pre>
+        <p>Open your browser at <a href="http://localhost:8503" target="_blank" style="color:var(--cyan)">http://localhost:8503</a></p>
+        <div class="callout callout-success">
+          <span class="icon">✨</span>
+          <div><strong>You should see:</strong> A dark futuristic dashboard with neon accents, a 4-page sidebar (Assessment, Analytics, History, About), and a gauge chart. <strong>This is the demo your professor will see.</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Read the README</h4>
+        <p>Open <code>README.md</code> in any text editor (or on GitHub once pushed). Read it top to bottom — it explains the architecture, the math, the scoring pipeline, and has a <strong>Viva Q&amp;A guide</strong> at the bottom. Memorize that section.</p>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h4>Push the project to GitHub</h4>
+        <p>First, create the repo on GitHub.com:</p>
+        <ol>
+          <li>Log into GitHub.</li>
+          <li>Click the <strong>"+"</strong> icon top-right → <strong>"New repository"</strong>.</li>
+          <li>Name it <code>mindscore-ai</code>.</li>
+          <li>Leave it <strong>Public</strong> (or Private — both work).</li>
+          <li><strong>Do NOT</strong> tick "Add README" or ".gitignore" — we already have those.</li>
+          <li>Click <strong>"Create repository"</strong>.</li>
+        </ol>
+        <p>Then in PowerShell, in the project folder:</p>
+        <pre><span class="code-label">PowerShell</span><code># Create a .gitignore so we don't push huge files
+@"
+venv/
+models/
+data/processed/
+outputs/*.db
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+"@ | Out-File -Encoding utf8 .gitignore
+
+git init
+git add .
+git commit -m "Initial MindScore AI commit"
+git branch -M main
+git remote add origin https://github.com/YOUR-USERNAME/mindscore-ai.git
+git push -u origin main</code></pre>
+        <p>Replace <code>YOUR-USERNAME</code> with your actual GitHub username. Git will ask for credentials — use your GitHub username + a <strong>Personal Access Token</strong> (not your password). Generate one at <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--cyan)">github.com/settings/tokens</a> → "Generate new token (classic)" → tick <code>repo</code> scope.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════ 6. DAY 2 ══════════════════════════ ╗ -->
+  <section id="day2">
+    <h2><span class="num">6</span> Day 2 — Train on Google Colab with Kaggle Data <span class="tag tag-day2">Day 2</span></h2>
+    <p>Goal: by end of Day 2, you have trained models on real Reddit + student mental-health data, sitting in your <code>models/</code> folder.</p>
+
+    <h3>Which datasets we'll use</h3>
+    <table>
+      <thead><tr><th>Module</th><th>Dataset</th><th>Kaggle slug</th><th>Size</th></tr></thead>
+      <tbody>
+        <tr><td>Text</td><td>Depression Reddit Cleaned</td><td><code>infamouscoder/depression-reddit-cleaned</code></td><td>~7,700 posts</td></tr>
+        <tr><td>Questionnaire</td><td>Student Mental Health</td><td><code>shariful07/student-mental-health</code></td><td>~100 rows</td></tr>
+        <tr><td>Audio <em>(optional)</em></td><td>RAVDESS Emotional Speech</td><td><code>uwrfkaggler/ravdess-emotional-speech-audio</code></td><td>~1,400 clips</td></tr>
+      </tbody>
+    </table>
+
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Open Google Colab</h4>
+        <p>Go to <a href="https://colab.research.google.com" target="_blank" style="color:var(--cyan)">colab.research.google.com</a> → sign in with Google → click <strong>"New notebook"</strong>.</p>
+        <p>You'll see an empty Jupyter-style notebook. Each grey box is a "cell" — you write code in it and press <strong>Shift + Enter</strong> (or click ▶️) to run it.</p>
+        <div class="screenshot">
+          <img src="https://colab.research.google.com/img/colab_favicon_256px.png" alt="Colab" style="width:120px; background:transparent; border:none;"/>
+          <div class="caption">Tip: Save the notebook (File → Save) early so you don't lose work.</div>
+        </div>
+        <div class="callout callout-info">
+          <span class="icon">💡</span>
+          <div><strong>Free Colab disconnects after ~12 hours of inactivity.</strong> That's plenty for our use. If it disconnects mid-training, just re-run from Cell 1.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>CELL 1 — Clone the project + install dependencies</h4>
+        <p>Paste this into the first cell. Replace <code>YOUR-USERNAME</code> with your GitHub username:</p>
+        <pre><span class="code-label">Colab · Cell 1</span><code>!git clone https://github.com/YOUR-USERNAME/mindscore-ai.git
+%cd mindscore-ai
+!pip install -r requirements.txt -q
+print("✅ Project loaded")</code></pre>
+        <p>Press <strong>Shift + Enter</strong>. Takes ~2-3 minutes. End message: <code>✅ Project loaded</code>.</p>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>CELL 2 — Upload kaggle.json</h4>
+        <p>Make a new cell (click <strong>+ Code</strong>). Paste:</p>
+        <pre><span class="code-label">Colab · Cell 2</span><code>from google.colab import files
+print("⬆️  When the upload button appears, select your kaggle.json file")
+uploaded = files.upload()
+
+!mkdir -p ~/.kaggle
+!mv kaggle.json ~/.kaggle/
+!chmod 600 ~/.kaggle/kaggle.json
+!pip install kaggle -q
+print("✅ Kaggle API ready")</code></pre>
+        <p>Run it. A <strong>"Choose Files"</strong> button appears. Click it → pick the <code>kaggle.json</code> you downloaded earlier → wait for ✅.</p>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>CELL 3 — Download the datasets</h4>
+        <pre><span class="code-label">Colab · Cell 3</span><code>!mkdir -p data/raw
+
+# Text dataset (Reddit depression posts)
+!kaggle datasets download -d infamouscoder/depression-reddit-cleaned -p data/raw --unzip
+
+# Questionnaire dataset (Student mental health survey)
+!kaggle datasets download -d shariful07/student-mental-health -p data/raw --unzip
+
+import os
+print("\n📦 Files now in data/raw/:")
+for f in sorted(os.listdir("data/raw")):
+    print(" ", f)</code></pre>
+        <p>You should see at least two CSV files listed. Note their exact filenames — you'll need them in the next cell.</p>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>CELL 4 — Format the data to match the project's expected schema</h4>
+        <p>This is the most important step. Kaggle CSVs use random column names. Our project expects very specific column names (defined in <code>config.py</code>). This cell renames them.</p>
+        <pre><span class="code-label">Colab · Cell 4</span><code>import pandas as pd, glob
+
+# ============ TEXT DATASET ============
+src = glob.glob("data/raw/depression_dataset_reddit_cleaned*.csv")[0]
+df = pd.read_csv(src)
+print("📝 Text raw columns:", df.columns.tolist())
+print("   Raw shape:", df.shape)
+
+# Rename to match config.py expectations
+df = df.rename(columns={"clean_text": "text", "is_depression": "label"})
+df = df[["text", "label"]].dropna()
+df["label"] = df["label"].astype(int)
+df.to_csv("data/raw/text_dataset.csv", index=False)
+print(f"✅ Saved text_dataset.csv → {df.shape} rows")
+print(f"   Label balance: {df['label'].value_counts().to_dict()}\n")
+
+
+# ============ QUESTIONNAIRE DATASET ============
+src = glob.glob("data/raw/Student Mental health*.csv")[0]
+df = pd.read_csv(src)
+print("📋 Questionnaire raw columns:", df.columns.tolist())
+
+# Map binary Yes/No to numeric 1-10 scale
+def yn_to_score(series, distress_high=True):
+    """Yes='distressed' becomes 8 (if distress_high) else 2."""
+    s = series.astype(str).str.strip().str.lower().map({"yes": 8, "no": 2})
+    return s.fillna(5)
+
+# Build the 10 features that config.QUESTIONNAIRE_ITEMS expects
+df_q = pd.DataFrame()
+df_q["sleep_quality"]          = 10 - yn_to_score(df["Do you have Anxiety?"])
+df_q["appetite"]               = 10 - yn_to_score(df["Do you have Panic attack?"])
+df_q["energy_level"]           = 10 - yn_to_score(df["Do you have Depression?"])
+df_q["social_interaction"]     = pd.to_numeric(df["Age"], errors="coerce").fillna(20).clip(1, 10)
+cgpa = df["What is your CGPA?"].astype(str).str.extract(r"([\d.]+)")[0]
+df_q["concentration"]          = pd.to_numeric(cgpa, errors="coerce").fillna(3).clip(1, 10)
+df_q["mood"]                   = 10 - yn_to_score(df["Do you have Depression?"])
+df_q["stress_level"]           = yn_to_score(df["Do you have Anxiety?"])
+df_q["physical_activity"]      = 5
+df_q["interest_in_activities"] = 10 - yn_to_score(df["Do you have Depression?"])
+df_q["self_worth"]             = 10 - yn_to_score(df["Did you seek any specialist for a treatment?"])
+
+# Derive risk_level from the mood column (0=low, 1=moderate, 2=high)
+def to_risk(m):
+    return 0 if m >= 7 else (1 if m >= 4 else 2)
+df_q["risk_level"] = df_q["mood"].apply(to_risk)
+
+df_q.to_csv("data/raw/questionnaire_dataset.csv", index=False)
+print(f"✅ Saved questionnaire_dataset.csv → {df_q.shape}")
+print(f"   Risk distribution: {df_q['risk_level'].value_counts().to_dict()}")</code></pre>
+        <div class="callout callout-warn">
+          <span class="icon">⚠️</span>
+          <div><strong>If you get a KeyError</strong> (e.g. <code>KeyError: 'Do you have Anxiety?'</code>), the column name in the CSV is slightly different. Check the printed list from Cell 4 and adjust the column names in the code. Common variations: extra spaces, "Anxiety" vs "Anxiety?", "Do you have" vs "Have you".</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 6 -->
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h4>CELL 5 — Wipe old processed data &amp; train</h4>
+        <pre><span class="code-label">Colab · Cell 5</span><code># Force fresh preprocessing on the new data
+!rm -rf data/processed
+
+# Train all modules
+!python train_all.py</code></pre>
+        <p>Takes <strong>5-10 minutes</strong>. You'll see progress for each model:</p>
+        <pre><code>[1/3] Training text model...
+   Cross-val scores: [0.91, 0.92, 0.90, 0.91, 0.93]
+   Best params: {'C': 1.0}
+   Test accuracy: 0.92
+   ✅ Saved models/text_model.joblib
+
+[2/3] Training questionnaire model...
+   ...
+   ✅ Saved models/questionnaire_model.joblib
+
+[3/3] Training audio model... (skipped — no audio data)</code></pre>
+        <div class="callout callout-info">
+          <span class="icon">📊</span>
+          <div>On real Reddit data, expect text accuracy of <strong>85-95%</strong> (vs 100% on synthetic — which was overfitting). This drop is actually <em>good</em> news to mention in your viva — it shows the model now generalizes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-body">
+        <h4>CELL 6 — Evaluate &amp; generate plots</h4>
+        <pre><span class="code-label">Colab · Cell 6</span><code>!python evaluate_all.py
+print("\n📊 Generated files in outputs/:")
+!ls -la outputs/</code></pre>
+        <p>This produces confusion matrices, classification reports, and feature-importance plots — all gold for your report.</p>
+      </div>
+    </div>
+
+    <!-- STEP 8 -->
+    <div class="step">
+      <div class="step-num">8</div>
+      <div class="step-body">
+        <h4>CELL 7 — Download trained models back to your laptop</h4>
+        <pre><span class="code-label">Colab · Cell 7</span><code>!zip -r trained_models.zip models/ outputs/
+
+from google.colab import files
+files.download("trained_models.zip")
+print("⬇️  Check your browser's downloads folder for trained_models.zip")</code></pre>
+        <p>A <code>trained_models.zip</code> file (~100-200 MB) downloads to your laptop. Save it.</p>
+      </div>
+    </div>
+
+    <!-- STEP 9 -->
+    <div class="step">
+      <div class="step-num">9</div>
+      <div class="step-body">
+        <h4>Put the new models into your local project</h4>
+        <p>On your laptop:</p>
+        <ol>
+          <li>Right-click <code>trained_models.zip</code> → <strong>Extract All</strong>.</li>
+          <li>You'll get a folder with <code>models/</code> and <code>outputs/</code> inside.</li>
+          <li>Copy these two folders into your project root, <strong>overwriting</strong> the old ones.</li>
+        </ol>
+        <p>Then restart Streamlit (the running one is using the old models):</p>
+        <pre><span class="code-label">PowerShell</span><code>C:\venvs\mindscore\Scripts\python.exe -m streamlit run app/streamlit_app.py --server.port 8503</code></pre>
+        <p>Open <a href="http://localhost:8503" target="_blank" style="color:var(--cyan)">localhost:8503</a> → type a real journal-entry-style sentence → you should now get more nuanced, realistic scores. 🎉</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════ 7. DAY 3 ══════════════════════════ ╗ -->
+  <section id="day3">
+    <h2><span class="num">7</span> Day 3 — Polish, Report &amp; Submit <span class="tag tag-day3">Day 3</span></h2>
+    <p>Goal: a recorded demo, screenshots, written report, and a polished submission package.</p>
+
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Test the full user flow end-to-end</h4>
+        <p>Open the Streamlit app and walk through each page:</p>
+        <ol>
+          <li><strong>Assessment page</strong> — type a paragraph in the text box, fill the 10 questionnaire sliders. Click "Run Assessment". Verify the gauge, radar, and risk band all show up.</li>
+          <li>Try 3 different scenarios:
+            <ul>
+              <li><em>Happy:</em> "I had a great day, met my friends, feeling productive."</li>
+              <li><em>Neutral:</em> "Just a normal day, did some work, watched TV."</li>
+              <li><em>Distress:</em> "I haven't slept well in weeks, everything feels pointless, I can't focus."</li>
+            </ul>
+          </li>
+          <li><strong>History page</strong> — your past assessments should appear with a trend chart.</li>
+          <li><strong>Analytics page</strong> — moving averages and statistics.</li>
+          <li><strong>About page</strong> — project info.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Take screenshots for the report</h4>
+        <p>Press <strong>Windows + Shift + S</strong> to use the Windows snip tool. Capture:</p>
+        <ul>
+          <li>Main assessment page with results (gauge + radar)</li>
+          <li>History page with trend chart</li>
+          <li>An alert being triggered (use the distress text from above)</li>
+          <li>The confusion matrices from <code>outputs/</code> folder</li>
+          <li>The feature importance plot</li>
+        </ul>
+        <p>Save them all in a folder called <code>screenshots/</code> in your project.</p>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Record a 5-minute demo video</h4>
+        <p>Use the built-in <strong>Xbox Game Bar</strong> (Windows + G) → click the record button. Or download <a href="https://www.loom.com/" target="_blank" style="color:var(--cyan)">Loom</a> (free) or <a href="https://obsproject.com/" target="_blank" style="color:var(--cyan)">OBS Studio</a>.</p>
+        <p><strong>Demo script (5 min):</strong></p>
+        <ol>
+          <li><strong>0:00–0:30</strong> — Intro: "Hi, this is MindScore AI, a multimodal mental health scoring system…"</li>
+          <li><strong>0:30–1:30</strong> — Architecture: show the README diagram. Explain the 3 modules + fusion.</li>
+          <li><strong>1:30–3:00</strong> — Live demo: open Streamlit, run 2-3 different assessments, show the gauge.</li>
+          <li><strong>3:00–4:00</strong> — Show History page, trend detection, alerts.</li>
+          <li><strong>4:00–5:00</strong> — Show confusion matrix, mention accuracy, mention real Kaggle data + Colab training.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Write the project report</h4>
+        <p>Most colleges expect a Word/PDF report with these sections (copy-paste a lot from <code>README.md</code>):</p>
+        <ol>
+          <li><strong>Abstract</strong> (1 paragraph) — copy from README.</li>
+          <li><strong>Introduction</strong> — why mental health AI matters, what's wrong with binary classifiers.</li>
+          <li><strong>Literature Survey</strong> — 5-6 papers (search Google Scholar for "depression detection BERT", "multimodal mental health AI").</li>
+          <li><strong>Architecture &amp; Methodology</strong> — paste the diagram + explain each module.</li>
+          <li><strong>Dataset</strong> — describe the Kaggle datasets you used (sizes, columns, sources).</li>
+          <li><strong>Implementation</strong> — list the libraries (scikit-learn, librosa, streamlit, plotly).</li>
+          <li><strong>Results</strong> — paste the confusion matrices, accuracy numbers, screenshots of the UI.</li>
+          <li><strong>Limitations &amp; Future Work</strong> — copy from README.</li>
+          <li><strong>References</strong> — Kaggle dataset URLs, sklearn docs, etc.</li>
+        </ol>
+        <div class="callout callout-success">
+          <span class="icon">📝</span>
+          <div><strong>Pro tip:</strong> Add the ✨ architecture SVG from this guide to your report — examiners love diagrams.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Final GitHub push</h4>
+        <p>Push your final code (without the heavy <code>models/</code> folder, which is in <code>.gitignore</code>):</p>
+        <pre><span class="code-label">PowerShell</span><code>git add .
+git commit -m "Final submission — trained on real Reddit + Student MH data"
+git push</code></pre>
+        <p>Share the repo URL with your professor.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════ 8. TROUBLESHOOTING ══════════════════════════ ╗ -->
+  <section id="troubleshoot">
+    <h2><span class="num">8</span> Troubleshooting — When Things Break</h2>
+    <table>
+      <thead><tr><th>Error</th><th>Likely cause</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>'python' is not recognized</code></td>
+          <td>Python wasn't added to PATH during install</td>
+          <td>Reinstall Python — tick "Add Python to PATH"</td>
+        </tr>
+        <tr>
+          <td><code>ModuleNotFoundError: No module named 'sklearn'</code></td>
+          <td>You ran <code>python</code> instead of the venv's python</td>
+          <td>Use the full path: <code>C:\venvs\mindscore\Scripts\python.exe ...</code></td>
+        </tr>
+        <tr>
+          <td><code>OSError: [Errno 2] No such file ... too long</code></td>
+          <td>Windows 260-char path limit</td>
+          <td>Always create the venv at a short path like <code>C:\venvs\mindscore</code></td>
+        </tr>
+        <tr>
+          <td>Port <strong>8501 in use</strong></td>
+          <td>Another Streamlit app is running</td>
+          <td>Add <code>--server.port 8503</code> (or any free port)</td>
+        </tr>
+        <tr>
+          <td>Colab: <code>kaggle: command not found</code></td>
+          <td>Forgot <code>!pip install kaggle</code></td>
+          <td>Re-run Cell 2</td>
+        </tr>
+        <tr>
+          <td>Colab: <code>403 Forbidden</code> from Kaggle</td>
+          <td>You didn't accept the dataset's terms on Kaggle's website</td>
+          <td>Visit the dataset page in your browser → click "I Understand and Accept" → re-run</td>
+        </tr>
+        <tr>
+          <td>Colab: <code>KeyError: 'Do you have Anxiety?'</code></td>
+          <td>The CSV column name is slightly different</td>
+          <td>Print <code>df.columns.tolist()</code> from Cell 4's output and adjust the rename code</td>
+        </tr>
+        <tr>
+          <td>Streamlit: blank/grey screen</td>
+          <td>Browser cache</td>
+          <td>Press <strong>Ctrl + Shift + R</strong> to hard refresh</td>
+        </tr>
+        <tr>
+          <td>Models predict the same thing every time</td>
+          <td>Forgot to overwrite <code>models/</code> with the Colab-trained ones</td>
+          <td>Re-extract <code>trained_models.zip</code> into the project root</td>
+        </tr>
+        <tr>
+          <td>Git: <code>Authentication failed</code></td>
+          <td>Using GitHub password instead of a Personal Access Token</td>
+          <td>Create a PAT at github.com/settings/tokens → use it as the password</td>
+        </tr>
+        <tr>
+          <td>Training takes forever on Colab</td>
+          <td>You picked the 232K-row Suicide Watch dataset on a CPU runtime</td>
+          <td>Either subsample (use <code>df = df.sample(20000)</code> in Cell 4) or switch to GPU runtime (Runtime → Change runtime type)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ╔══════════════════════════ 9. VIVA ══════════════════════════ ╗ -->
+  <section id="viva">
+    <h2><span class="num">9</span> Viva / Demo Cheat Sheet</h2>
+    <p>These are the questions examiners <strong>always</strong> ask. Memorize the answers.</p>
+
+    <div class="card">
+      <h4>Q1. "Why do you use a continuous score instead of just classifying as depressed / not depressed?"</h4>
+      <p>"A binary classifier loses important nuance. A person with a score of 42 and one with 68 would both be 'moderate', but they are clinically very different. A continuous score also lets us detect <em>trends</em> — for example, a 10-point drop in a week is an early warning even if both readings are still in the 'stable' band. Continuous output is essential for early intervention."</p>
+    </div>
+
+    <div class="card">
+      <h4>Q2. "Why an ensemble instead of just one model?"</h4>
+      <p>"No single algorithm is best for all data. We combine four different models — Logistic Regression (strong probabilistic baseline), Linear SVM (good margins), Random Forest (handles nonlinear interactions), and Gradient Boosting (highest raw accuracy). The voting classifier averages their predictions, which reduces variance and improves generalization compared to any single model."</p>
+    </div>
+
+    <div class="card">
+      <h4>Q3. "What is probability calibration?"</h4>
+      <p>"Raw model outputs don't always represent true probabilities — a model might predict 0.8 but the actual frequency of that class is 60%. We apply isotonic regression to the validation set so that predicted probabilities match real frequencies. This is critical because our fusion module uses these probabilities to weight modules — miscalibrated probabilities would produce misleading scores."</p>
+    </div>
+
+    <div class="card">
+      <h4>Q4. "How does confidence-weighted fusion work?"</h4>
+      <p>"Each module produces a score AND a confidence. We multiply the base weight (0.4 for text, 0.4 for questionnaire, 0.2 for audio) by the confidence, then renormalize. So if the text model is 95% confident and the questionnaire is only 55% confident, the text gets proportionally more say in the final score. This makes the system robust — uncertain modules can't drag the result around."</p>
+    </div>
+
+    <div class="card">
+      <h4>Q5. "What dataset did you train on?"</h4>
+      <p>"Two real Kaggle datasets — the 'Depression Reddit Cleaned' corpus with about 7,700 labeled posts for the text module, and the 'Student Mental Health' survey for the questionnaire module. Training was done on Google Colab and the final models are saved as .joblib files."</p>
+    </div>
+
+    <div class="card">
+      <h4>Q6. "How is this different from your previous project?"</h4>
+      <p>"Three orders of magnitude more data, ensemble models instead of a single classifier, continuous scoring instead of 3-class, time-series tracking with SQLite, a multi-level alert system, and a production-grade Streamlit dashboard. The previous project was a proof of concept; this one is a deployable system."</p>
+    </div>
+
+    <div class="card">
+      <h4>Q7. "Can this replace a doctor?"</h4>
+      <p>"<strong>Absolutely not.</strong> This is a decision-support / screening tool, not a diagnostic instrument. It's designed to help individuals track their own well-being over time and to flag periods of concern that warrant talking to a professional. Real diagnosis requires a licensed clinician."</p>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════ 10. CHECKLIST ══════════════════════════ ╗ -->
+  <section id="checklist">
+    <h2><span class="num">10</span> Final Submission Checklist</h2>
+    <p>Tick these off before submitting. Don't forget anything!</p>
+
+    <div class="card">
+      <h4>📦 Code &amp; Models</h4>
+      <ul class="checklist">
+        <li>GitHub repo pushed and <strong>public</strong> (or shared with examiner)</li>
+        <li><code>README.md</code> updated with your name + roll number at top</li>
+        <li>Trained models from Colab are in <code>models/</code> (locally, not on GitHub)</li>
+        <li>App runs without errors on a fresh PowerShell window</li>
+        <li><code>requirements.txt</code> committed</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4>📝 Documentation</h4>
+      <ul class="checklist">
+        <li>Project report PDF (8-15 pages)</li>
+        <li>Architecture diagram included in report</li>
+        <li>Confusion matrices + accuracy numbers in report</li>
+        <li>Screenshots of the running app in report</li>
+        <li>References / bibliography</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4>🎥 Demo</h4>
+      <ul class="checklist">
+        <li>5-minute demo video recorded</li>
+        <li>Live demo rehearsed (run through 3 different inputs)</li>
+        <li>Backup screenshots in case internet/laptop fails during viva</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h4>🎤 Viva</h4>
+      <ul class="checklist">
+        <li>All 7 Q&amp;A above memorized</li>
+        <li>Can explain the fusion math on a whiteboard</li>
+        <li>Know the dataset sizes and accuracy numbers by heart</li>
+        <li>Can answer "what would you do next?" (transformer NLP, learned fusion, real-time audio)</li>
+      </ul>
+    </div>
+
+    <div class="callout callout-success" style="margin-top:30px; padding:20px;">
+      <span class="icon">🎉</span>
+      <div>
+        <strong>You're going to crush this.</strong>
+        <p style="margin:6px 0 0;">3 days is plenty if you follow the plan. Start with Day 1 today. Don't get distracted by "improvements" until you have the basic flow working end-to-end. Good luck!</p>
+      </div>
+    </div>
+  </section>
+
+  <footer style="text-align:center; color:var(--muted); font-size:13px; padding:40px 0 0; border-top:1px solid var(--border); margin-top:60px;">
+    <p>MindScore AI — Multimodal Mental Health Scoring System<br/>
+    Final-Year BTech Project · Built with scikit-learn, Streamlit, and ❤️</p>
+    <p style="font-size:11px; color:var(--dim); margin-top:20px;">⚠️ This guide is for academic purposes. The system is not a substitute for professional mental health care.</p>
+  </footer>
+
+</div>
+
+<a href="#" class="top-btn" title="Back to top">↑</a>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.cover
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Runtime / local user data
+outputs/user_scores.db
+*.db-journal
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE & OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Optional archives (models/ and source are already in the repo)
+trained_models.zip
+Mindscore.zip
+
+# Large optional Kaggle downloads (use prepare_kaggle_datasets.py instead)
+data/raw/kaggle/
