@@ -1,25 +1,26 @@
 # Deploy MindScore AI on Hugging Face Spaces
 
-Your repo is configured for a **Streamlit Space**. The app entry point is `app/streamlit_app.py` (set in `README.md` YAML frontmatter).
+Hugging Face **removed Streamlit from the “New Space” form**. Use the **Docker** SDK instead — this repo includes a `Dockerfile` that runs Streamlit on port **8501**.
 
 ## Prerequisites
 
 - [Hugging Face account](https://huggingface.co/join)
 - GitHub repo pushed: `https://github.com/adityatagra/Mindscore-AI`
 - Trained models in `models/` (already in your repo)
+- Files: `Dockerfile`, `README.md` (YAML: `sdk: docker`, `app_port: 8501`)
 
 ## Option A — Create Space from GitHub (recommended)
 
 1. Open [https://huggingface.co/new-space](https://huggingface.co/new-space)
 2. **Space name:** e.g. `mindscore-ai`
-3. **License:** MIT (or your choice)
-4. **Space SDK:** Streamlit
-5. **Space hardware:** CPU basic (free)
-6. Under **Create from**, choose **GitHub** and connect your account
-7. Select repository **`adityatagra/Mindscore-AI`**
-8. Branch: `main` → **Create Space**
+3. **Space SDK:** **Docker** (not Gradio)
+4. **Space hardware:** CPU basic (free)
+5. **Visibility:** Public (or Private)
+6. After creation: **Settings → Repository** → connect **`adityatagra/Mindscore-AI`**, branch `main`
 
-Hugging Face will clone the repo and build automatically (first build may take 5–15 minutes).
+   *Or* pick **Docker** + blank Space, then push this repo to the Space remote.
+
+Hugging Face builds the `Dockerfile` automatically (first build may take 10–20 minutes).
 
 ## Option B — Push with Git CLI
 

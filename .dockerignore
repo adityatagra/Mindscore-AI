@@ -1,0 +1,14 @@
+venv/
+.venv/
+.git/
+__pycache__/
+*.py[cod]
+.DS_Store
+.idea/
+.vscode/
+*.zip
+data/raw/kaggle/
+scripts/
+docs/
+PROJECT_GUIDE.html
+notebooks/

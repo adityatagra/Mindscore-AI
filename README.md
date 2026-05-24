@@ -3,9 +3,8 @@ title: MindScore AI
 emoji: 🧠
 colorFrom: blue
 colorTo: purple
-sdk: streamlit
-sdk_version: "1.40.0"
-app_file: app/streamlit_app.py
+sdk: docker
+app_port: 8501
 pinned: false
 license: mit
 short_description: Multimodal mental health wellness scoring (text, questionnaire, audio)
