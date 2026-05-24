@@ -1,3 +1,16 @@
+---
+title: MindScore AI
+emoji: 🧠
+colorFrom: blue
+colorTo: purple
+sdk: streamlit
+sdk_version: "1.40.0"
+app_file: app/streamlit_app.py
+pinned: false
+license: mit
+short_description: Multimodal mental health wellness scoring (text, questionnaire, audio)
+---
+
 # MindScore AI - Multimodal Mental Health Scoring & Early Warning System
 
 A **continuous-score, multimodal AI system** that predicts mental health wellness on a 0-100 scale using ensemble machine learning, text analysis, behavioral questionnaires, and optional voice emotion recognition. The system tracks scores over time, detects worsening trends, and triggers multi-level alerts.
